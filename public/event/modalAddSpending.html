@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">New spending</h3>
+  </div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="label" class="col-sm-2 control-label">Label</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="label" placeholder="Something" ng-model="newSpending.label">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="amount" class="col-sm-2 control-label">Amount</label>
+        <div class="col-sm-10">
+          <input type="number" step="0.01" class="form-control" id="amount" placeholder="13" ng-model="newSpending.amount">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="date" class="col-sm-2 control-label">Spent on</label>
+        <div class="col-sm-10">
+          <input type="date" class="form-control" id="date" ng-model="newSpending.date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Concerned</label>
+        <div class="col-sm-10">
+            <div class="input-group" ng-repeat="concerned in newSpending.concerned track by $index">
+              <select name="concerned.name" class="form-control m-b" ng-model="concerned.name" ng-disabled="$first" ng-options="client.name as client.name for client in currentEvent.clients">
+                   <option></option>
+                </select>
+              <input type="number" step="0.01" max="1" min="0.01" popover="Weight between 0.01 and 1" popover-trigger="mouseenter" popover-placement="left" class="form-control" placeholder="1" ng-model="concerned.weight">
+              <span class="input-group-btn">
+                <button class="btn btn-default" ng-class="(newSpending.concerned.length < 2 || $first) ? 'disabled' : ''" ng-click="newSpending.concerned.splice($index, 1)" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+              </span>
+            </div>
+            <button class="btn m-b-xs btn-sm btn-default btn-addon" ng-click="newSpending.concerned.push({name: '', weight: 1})"><i class="glyphicon glyphicon-plus"></i> Concerned</button>
+        </div>
+    </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success" ng-click="save()">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

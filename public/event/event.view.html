@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-lg-2" style="background-color: #FF92BB; color:white; height:100vh;">
+        <div class="row">
+            <div class="col-sm-12">
+                <br/>
+                <div class="display:block">
+                    <h3 style="display:inline">hello</h3> <h1 style="display:inline">{{vm.currentUser.username | uppercase}}</h1>
+                </div>
+                <br/>
+                <h4>Choose a event below</h4>
+                <table ng-table="vm.tableParams" class="table" show-filter="false">
+                    <tr ng-repeat="event in vm.allEvents">
+                        <td title="'Name'" filter="{ label: 'text'}" sortable="'label'" ng-click="vm.loadEvent(event)">
+                            <a style="color: white">{{event.label}}</a></td>
+                        <td title="''" >
+                            <button type="button" class="btn btn-danger" name="deleteEvent" ng-click="deleteEvent(event._id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" name="newEvent" class="btn btn-warning pull-right" ng-click="openNewEvent()">New event</button>
+            </div>
+        </div>
+        <footer class="footer">
+            <a type="button" name="logout" class="btn btn-info" href="#/logout">Logout</a>
+        </footer>
+    </div>
+    <div class="col-lg-6">
+        <div ng-show="vm.event">
+            <button style="display:inline;" type="button" class="btn btn-warning btn-xs pull-right" ng-click="vm.event = null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            <h2>Event details</h2>
+            <div class="row" style="padding-top: 10px; padding-bottom: 10px">
+                <form class="form-inline">
+                    <div class="form-group pull-left" style="padding-left: 15px">
+                        <label for="label" >Title</label>
+                        <input type="text" class="form-control" id="labelEvent" ng-model="vm.event.label">
+                    </div>
+                    <div class="form-group" style="padding-left: 15px">
+                        <label for="currencyEvent">Currency</label>
+                        <input type="text" class="form-control" id="currencyEvent" ng-model="vm.event.currency">
+                    </div>
+                    <div class="form-group" style="padding-left: 15px">
+                        <button type="submit" class="btn btn-info" ng-click="openMembers(vm.event)">Members <span class="badge">{{vm.event.clients.length}}</span></button>
+                    </div>
+                    <button type="submit" class="btn btn-success pull-right" ng-click="vm.saveEvent(vm.event)">Save event</button>
+                    <br/>
+                </form>
+            </div>
+            <h2>Spendings</h2><button class="btn btn-sm btn-default" type="button" name="button" ng-click="openNewSpending(vm.event)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</button>
+            <div class="row" style="padding-top: 10px; padding-bottom: 10px">
+                <div style="padding-left: 15px">
+                    <table ng-table="vm.tableParams" class="table table-bordered table-striped" show-filter="false">
+                        <tr ng-repeat="spending in vm.event.spending" ng-click="vm.spending = spending">
+                            <td title="'Name'" filter="{ label: 'text'}" sortable="'label'">
+                                {{spending.label}}</td>
+                            <td title="'Amount'" filter="{ amount: 'number'}" sortable="'currency'">
+                                {{spending.amount}}</td>
+                            <td title="'Author'" filter="{ author: 'text'}" sortable="'author'">
+                                {{spending.author}}</td>
+                            <td title="'Date'" filter="{ date: 'number' }" sortable="'date'">
+                                {{spending.date | date: 'longDate'}}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-xs" ng-click="openUpSpending(vm.event, spending, $index)">Details</button>
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="deleteSpending(vm.event, spending, $index)">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4"  style="background-image:url('../img/uni.png'); height:100vh;">
+        <div ng-show="vm.event && !vm.loading">
+            <h2>General information<h2>
+            <h3>Total spendings : {{vm.balance.total | number:2 }} {{vm.event.currency}}</h3>
+            <h3>Individual spendings for {{vm.event.label}}</h3>
+            <p ng-repeat="paid in vm.balance.paid">
+                {{paid.name}} spent {{paid.spent | number:2}} {{vm.event.currency}}
+            </p>
+            <h2>Balance</h2>
+            <p ng-repeat="recap in vm.balance.recap">
+                {{recap.who}} owes {{recap.what | number:2 }} {{vm.event.currency}} to {{recap.toWho}} !
+            </p>
+        </div>
+        <div ng-show="vm.loading">
+            <div class="spinner2">
+              <div class="double-bounce1"></div>
+              <div class="double-bounce2"></div>
+            </div>
+        </div>
+    </div>
+</div>

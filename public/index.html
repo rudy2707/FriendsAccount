@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="app.event">
+<head>
+    <meta charset="utf-8" />
+    <title>Friends Account</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link href="app-content/app.css" rel="stylesheet" />
+    <link rel="stylesheet" href="app-content/ng-table.min.css" />
+    <link rel="stylesheet" href="app-content/angular-ui-notification.min.css" />
+</head>
+    <body>
+
+        <div class="container-fluid">
+            <div ng-view ></div>
+        </div>
+
+        <!-- Libraries needed -->
+        <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="//code.angularjs.org/1.2.20/angular.js"></script>
+        <script src="//code.angularjs.org/1.2.20/angular-route.js"></script>
+        <script src="//code.angularjs.org/1.2.13/angular-cookies.js"></script>
+        <script src="lib/ng-table.min.js"></script>
+        <script src="lib/ui-bootstrap-tpls.min.js"></script>
+        <script src="lib/angular-ui-notification.min.js"></script>
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script src="/lib/moment/min/moment.min.js"></script>
+
+        <!-- Main -->
+        <script src="app.js"></script>
+
+        <!-- Angular services -->
+        <script src="app-services/authentication.service.js"></script>
+        <script src="app-services/user.service.js"></script>
+        <script src="app-services/event.service.js"></script>
+
+        <!-- Angular controllers -->
+        <script src="home/home.controller.js"></script>
+        <script src="login/login.controller.js"></script>
+        <script src="register/register.controller.js"></script>
+        <script src="event/event.controller.js"></script>
+        <script src="event/modal.controller.js"></script>
+
+    </body>
+</html>

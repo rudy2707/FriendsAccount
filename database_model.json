@@ -1,0 +1,35 @@
+Client : {
+	"_id":"ID",
+	"name":"String",
+	"password":"String"
+}
+
+Event :
+{
+    "_id": "ID",
+    "label": "String",
+    "currency": "String",
+    "spending": [
+      {
+		"_id": "ID",
+        "label": "String",
+        "amount": "Number",
+        "author": "String",
+        "concerned": [
+          {
+			"_id": "ID",
+            "name": "String",
+            "weight": "Number",
+          }
+        ],
+        "date": "Date"
+      }
+    ],
+    "clients": [
+      {
+		"_id": "ID",
+        "name": "String",
+        "weight": "Number"
+	  }
+    ]
+  }
