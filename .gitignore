@@ -1,4 +1,12 @@
+# Execution files
 db
 node_modules
 *.DS_Store
 
+# Latex files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.gz
