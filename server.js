@@ -205,12 +205,7 @@ apiRoutes.get('/events', function(req, res) {
   });
 });
 
-apiRoutes.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
-    res.json(users);
-  });
-});
-
+// Get the information of a client by his name
 apiRoutes.get('/users/:name', function(req, res) {
   User.find({name: req.params.username}, function(err, user) {
     if (!err) res.json({'success': true, 'user': user});

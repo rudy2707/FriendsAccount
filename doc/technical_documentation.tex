@@ -9,7 +9,8 @@
 \usepackage{epstopdf}
 \usepackage{fancyhdr}
 \usepackage[T1]{fontenc}
-%\usepackage[top=2cm, bottom=2cm, left=3.5cm, right=2cm]{geometry} % Les marges.
+\usepackage{pmboxdraw}
+\usepackage{parskip}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry} % Les marges.
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -52,7 +53,7 @@
 \fancyhead[R]{\today}
 
 
-\title{TP2 - Friends Account\\Programmation web}
+\title{TP2 - Friends Account\\Développements et services web}
 \author{Rudolf Höhn}
 \date{\today}
 
@@ -60,6 +61,176 @@
 \begin{document}
 \maketitle
 
+\tableofcontents
+
+\chapter{Aspects techniques}
+\section{Architecture du projet}
+\subsection{Technologies}
+Pour ce projet, j'utilise \textbf{Node JS} pour le back-end et \textbf{Angular JS} pour le front-end.
+L'architecture du projet est donc différente d'un site web PHP malgré qu'on retrouve quelques points semblables.\\\\
+La communication entre le back-end et le front-end se fait à travers des services REST. Un document annexe explique toute l'API.
+\subsection{Arborescence du projet}
+Toute le premiere degré de l'arbre ci-dessous est utilisé par Node JS et toute la partie Angular est à l'intérieur du dossier \textit{public}.
+Pour le front-end, j'ai décidé d'organiser les fichiers par besoin et non par type. Certains développeur préconisent de séparer les controlleurs, des services et des vues.
+D'autres préférent rassembler les fichiers par tâche. Par exemple, dans le dossier \textit{event}, nous allons retrouver tous les fichiers utilisés pour la gestion des événements (qui est la partie principale de l'application).
+\begin{verbatim}
+    .
+    ├── README.md
+    ├── app
+    │   └── models
+    │       ├── event.js
+    │       └── user.js
+    ├── config.js
+    ├── database_model.json
+    ├── db/
+    ├── doc/
+    ├── package.json
+    ├── public
+    │   ├── app-content/*.css
+    │   ├── app-services
+    │   │   ├── authentication.service.js
+    │   │   ├── event.service.js
+    │   │   └── user.service.js
+    │   ├── app.js
+    │   ├── event
+    │   │   ├── event.controller.js
+    │   │   ├── event.view.html
+    │   │   ├── modal.controller.js
+    │   │   ├── modalAddEvent.html
+    │   │   ├── modalAddSpending.html
+    │   │   ├── modalMembers.html
+    │   │   └── modalUpSpending.html
+    │   ├── img/
+    │   ├── index.html
+    │   ├── lib/
+    │   ├── login
+    │   │   ├── login.controller.js
+    │   │   └── login.view.html
+    │   └── register
+    │       ├── register.controller.js
+    │       └── register.view.html
+    └── server.js
+\end{verbatim}
+
+\section{Base de données}
+\subsection{Technologie}
+Dans le cadre de ce TP, je me suis orienté vers une base NoSql.
+En me documentant sur le web, j'ai vu que beaucoup de développeurs utilisaient le \textit{MEAN Stack} (MongoDB, ExpressJS, AngularJS, NodeJS) pour leurs applications web.
+J'ai donc décidé de suivre cette architecture et donc de prendre une base MongoDB.
+
+\subsection{Modèle}
+Comme MongoDB est une base NoSql, le modèle n'a pas lieu d'être en relationnel, c'est pour cela qu'il est présenté sous la forme JSON.
+\begin{verbatim}
+"Client" : {
+    "_id":"ID",
+    "name":"String",
+    "password":"String"
+}
+"Event" :
+{
+    "_id": "ID",
+    "label": "String",
+    "currency": "String",
+    "spending": [
+      {
+        "_id": "ID",
+        "label": "String",
+        "amount": "Number",
+        "author": "String",
+        "concerned": [
+          {
+            "_id": "ID",
+            "name": "String",
+            "weight": "Number",
+          }
+        ],
+        "date": "Date"
+      }
+    ],
+    "clients": [
+      {
+        "_id": "ID",
+        "name": "String",
+        "weight": "Number"
+      }
+    ]
+  }
+\end{verbatim}
+
+\section{Fonctionnalités}
+Toutes les fonctionnlités listées ci-dessous sont utilisables malgré certains bugs qui seront détaillés plus bas dans le document.
+\subsection{Authentification}
+Pour l'authentification, j'ai utilisé les JWT (JSON Web Token). Ce sont des tokens qui sont envoyés à chaque requête vers l'API REST pour authentifier le client.
+Certaines routes comme l'authentification elle-même ou la création de compte ne nécessitent pas de JWT.\\\\
+Les fonctionnalités suivantes sont fonctionnelles.
+\begin{itemize}
+\item Création d'un compte
+\item Authentification d'un utilisateur
+\end{itemize}
+
+\subsection{Gestion des événements}
+Dans la gestion des évévements, les différentes fonctionnalités ci-dessous sont disponiblies.
+\begin{itemize}
+\item Ajouter un événement
+\item Mettre à jour les membres de l'événement (personne et poids dans l'événement)
+\item Modifier le titre ou la devise de l'événement
+\item Supprimer un événement
+\end{itemize}
+
+\subsection{Gestion des dépenses}
+\begin{itemize}
+\item Ajouter une dépense
+\item Modifier une dépense (coût, nom, date, personnes concernées)
+\item Supprimer une dépense
+\end{itemize}
+
+\subsection{Balance}
+\begin{itemize}
+\item Savoir ce que chaque membre d'un événement à payer
+\item Recevoir une proposition de réglement des comptes.
+\end{itemize}
+
+\section{Bugs}
+Voici la liste des différents bugs non résolus.
+\begin{itemize}
+\item Les fenêtres \textit{Modal} ne se ferment pas toutes seules
+\item Les JWT ne sont pas correctement enregistrés dans les cookies et donc, si on rafraîchit la page, on doit se reconnecter
+\item Peu de champs sont vérifiés et donc, beaucoup de failles sont encore existantes.
+\end{itemize}
+
+\chapter{Installation}
+\section{Procédure}
+Toute la procédure ci-dessous est expliquée dans un fichier README dans le projet.\\\\
+Pour faire tourner l'application en local, c'est très simple. Il faut par contre avoir d'installer sur sa machine :
+\begin{itemize}
+\item npm
+\item node
+\item mongod
+\end{itemize}
+Premièrement, on doit avoir une instance MongoDB qui tourne sur notre machine.
+\begin{verbatim}
+mongod
+\end{verbatim}
+Maintenant que notre base de données est lancée, il nous reste plus qu'à installer les paquets requis et lancer le serveur.
+\begin{verbatim}
+npm install
+node server.js
+\end{verbatim}
+Vous pouvez maintenant aller sur la page \url{http://localhost:8080} et tester l'application !\\\\
+\section{Données de test}
+Pour une utilisation plus rapide, vous pouvez interroger la route \textit{/setup} de l'API est charger des données de test dans la base.\\\\
+Les utilisateurs inscrits dans la base :
+\begin{itemize}
+\item Username : \textbf{lemur} - Password : \textbf{11}
+\item Username : \textbf{azara} - Password : \textbf{11}
+\end{itemize}
+
+\chapter{Manuel d'utilisateur}
+Toute l'application web est sur une seule page.\\\\
+La barre latérale de gauche permet de parcourir les événements liés à votre compte.\\\\
+La partie centrale permet de modifier les détails de l'événement que vous parcourez ainsi que ses membres.
+De plus, c'est à cet endroit que vous retrouverez la liste des dépenses du groupe. Vous pouvez en ajouter ou bien modifier un déjà existant.\\\\
+La partie latérale de droite permet d'avoir le bilan financier de l'événement ainsi qu'une proposition de remboursement entre les membres de l'événement.
 
 
 \end{document}
