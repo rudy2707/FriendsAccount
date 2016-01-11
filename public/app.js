@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.event', ['ngRoute', 'ngCookies', 'ngTable', 'ui.bootstrap', 'ui-notification', 'ngTagsInput'])
+        .module('app.event', ['ngRoute', 'ngCookies', 'ngTable', 'ui.bootstrap', 'ui-notification'])
         .config(config)
         .run(run);
 
@@ -26,7 +26,6 @@
                 templateUrl: 'register/register.view.html',
                 controllerAs: 'vm'
             })
-
             .otherwise({ redirectTo: '/login' });
 
         NotificationProvider.setOptions({
