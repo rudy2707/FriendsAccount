@@ -4,9 +4,10 @@ Friends Account
 ### Quick Start
 
 In order to launch the web server, you need to have a mongodb instance running.
+You have to create a 'db' directory where you want to run the mongo database.
 
 ```
-   mongodb
+   mongodb --dbpath /path/to/db
 ```
 
 Then you can download all the dependencies and start the server.

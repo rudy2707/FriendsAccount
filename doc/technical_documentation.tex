@@ -207,9 +207,9 @@ Pour faire tourner l'application en local, c'est très simple. Il faut par contr
 \item node
 \item mongod
 \end{itemize}
-Premièrement, on doit avoir une instance MongoDB qui tourne sur notre machine.
+Premièrement, on doit avoir une instance MongoDB qui tourne sur notre machine. MongoDB a besoin d'un dossier 'db' pour s'exécuter.
 \begin{verbatim}
-mongod
+mongod --dbpath /path/to/db
 \end{verbatim}
 Maintenant que notre base de données est lancée, il nous reste plus qu'à installer les paquets requis et lancer le serveur.
 \begin{verbatim}
